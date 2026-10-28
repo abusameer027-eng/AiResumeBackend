@@ -46,7 +46,7 @@ public class EmailService {
 
     private void sendViaHttp(String toEmail, String toName, String subject, String htmlContent, String otpForLog) {
         if (!enabled || apiKey == null || apiKey.trim().isEmpty()) {
-            log.warn("[MAIL DISABLED OR NO API KEY] Sending skipped. Fallback OTP for {}: {}", toEmail, otpForLog);
+        	log.warn("Email sending skipped: mail service is disabled or API key is missing.");
             return;
         }
 
@@ -74,9 +74,7 @@ public class EmailService {
 
         } catch (Exception e) {
             log.error("Failed to send email to {}: {}", toEmail, e.getMessage());
-            if (otpForLog != null) {
-                log.warn("[MAIL FAILED - OTP FALLBACK] {} -> {}", toEmail, otpForLog);
-            }
+            log.warn("Email delivery failed. Please check Brevo configuration and logs.");
         }
     }
 
